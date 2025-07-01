@@ -2,23 +2,49 @@ import streamlit as st
 import pandas as pd
 from doomsday_engine import parse_decklist, suggest_viable_piles
 
+
+DECK_PRESETS = {
+    "Default Doomsday": """1 Ancestral Recall
+1 Black Lotus
+1 Brainstorm
+4 Dark Ritual
+…""",
+    "Gush Doomsday": """1 Ancestral Recall
+1 Lotus Petal
+1 Brainstorm
+4 Dark Ritual
+…""",
+    # add more
+}
+
+HAND_PRESETS = {
+    "Empty": "",
+    "Draw on Play": "Brainstorm,Lotus Petal",
+    "Draw on Draw": "Dark Ritual,Preordain",
+    # add more
+}
+
+
 st.set_page_config(page_title="Vintage Doomsday Pile Suggester", layout="wide")
 
 st.title("Vintage MTG Doomsday Pile Suggester Web App")
 
 # Decklist input
-st.header("1. Decklist Input")
-deck_text = st.text_area(
-    "Paste your decklist here (one card per line, with quantities):",
-    height=200
-)
+preset = st.selectbox("Choose a deck preset:", ["<Paste your own>", *DECK_PRESETS])
+if preset == "<Paste your own>":
+    deck_text = st.text_area("Paste decklist here", height=200)
+else:
+    deck_text = DECK_PRESETS[preset]
 
 # Initial hand input
-st.header("2. Initial Hand")
-initial_hand_input = st.text_input(
-    "Enter cards you start with (comma-separated):",
-    ""
-)
+hand_preset = st.selectbox("Example hands:", list(HAND_PRESETS.keys()))
+if hand_preset == "Empty":
+    initial_hand_input = ""
+else:
+    initial_hand_input = HAND_PRESETS[hand_preset]
+# Show editable field in case they want to tweak
+initial_hand_input = st.text_input("Or edit hand (comma-separated):", initial_hand_input)
+
 
 # Constraints
 st.header("3. Constraints")

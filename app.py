@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 from doomsday_engine import parse_decklist, suggest_viable_piles
 
@@ -81,3 +82,16 @@ if st.button("Generate Piles"):
     df = pd.DataFrame(suggestions)
     st.header("Suggested Doomsday Piles")
     st.dataframe(df)
+
+GA_JS = """
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9425Y903KE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9425Y903KE');
+</script>
+"""
+components.html(GA_JS, height=0)

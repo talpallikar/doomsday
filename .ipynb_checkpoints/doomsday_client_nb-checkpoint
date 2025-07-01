@@ -1,0 +1,137 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "6f245885-725b-4a00-83bb-d6b9f9fd9a18",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "SyntaxError",
+     "evalue": "positional argument follows keyword argument (doomsday_engine.py, line 180)",
+     "output_type": "error",
+     "traceback": [
+      "Traceback \u001b[0;36m(most recent call last)\u001b[0m:\n",
+      "\u001b[0m  File \u001b[1;32m~/opt/miniconda3/lib/python3.9/site-packages/IPython/core/interactiveshell.py:3460\u001b[0m in \u001b[1;35mrun_code\u001b[0m\n    exec(code_obj, self.user_global_ns, self.user_ns)\u001b[0m\n",
+      "\u001b[0;36m  Cell \u001b[0;32mIn[1], line 1\u001b[0;36m\n\u001b[0;31m    from doomsday_engine import parse_decklist, suggest_viable_piles\u001b[0;36m\n",
+      "\u001b[0;36m  File \u001b[0;32m~/src/magic-math/doomsday/doomsday_engine.py:180\u001b[0;36m\u001b[0m\n\u001b[0;31m    suggestions.sort(key=lambda x: (x[\"turns_to_win\"]), len(x[\"vulnerabilities\"]), )\u001b[0m\n\u001b[0m                                                                                   ^\u001b[0m\n\u001b[0;31mSyntaxError\u001b[0m\u001b[0;31m:\u001b[0m positional argument follows keyword argument\n"
+     ]
+    }
+   ],
+   "source": [
+    "from doomsday_engine import parse_decklist, suggest_viable_piles\n",
+    "\n",
+    "# 1) Paste in (or load) your raw decklist text\n",
+    "\n",
+    "raw_decklist = \"\"\"1 Ancestral Recall\n",
+    "1 Black Lotus\n",
+    "1 Brainstorm\n",
+    "4 Dark Ritual\n",
+    "1 Daze\n",
+    "1 Demonic Consultation\n",
+    "1 Demonic Tutor\n",
+    "1 Dig Through Time\n",
+    "4 Doomsday\n",
+    "1 Flooded Strand\n",
+    "3 Flusterstorm\n",
+    "1 Force of Negation\n",
+    "4 Force of Will\n",
+    "1 Gitaxian Probe\n",
+    "1 Gush\n",
+    "1 Island\n",
+    "1 Mental Misstep\n",
+    "3 Misty Rainforest\n",
+    "1 Mox Jet\n",
+    "1 Mox Sapphire\n",
+    "1 Necropotence\n",
+    "2 Polluted Delta\n",
+    "4 Ponder\n",
+    "4 Preordain\n",
+    "2 Scalding Tarn\n",
+    "4 Street Wraith\n",
+    "2 Thassa's Oracle\n",
+    "1 Thoughtseize\n",
+    "1 Time Walk\n",
+    "1 Treasure Cruise\n",
+    "4 Underground Sea\n",
+    "1 Watery Grave\"\"\"\n",
+    "\n",
+    "\n",
+    "\n",
+    "# 2) Parse it\n",
+    "deck = parse_decklist(raw_decklist)\n",
+    "\n",
+    "# 3) Define your constraints & opponent profile\n",
+    "constraints = {\n",
+    "    \"max_life_loss\": 6,\n",
+    "    \"min_mana_sources\": 1,\n",
+    "    \"must_include_oracle\": True,\n",
+    "    \"must_include_draw\": True\n",
+    "}\n",
+    "opponent_disruption = {\n",
+    "    \"has_force_of_will\": True,\n",
+    "    \"has_flusterstorm\": True,\n",
+    "    \"has_consign_to_memory\": False,\n",
+    "    \"has_orcish_bowmasters\": False,\n",
+    "    \"has_pyroblast\": False\n",
+    "}\n",
+    "\n",
+    "# 4) Get your top suggestions\n",
+    "suggestions = suggest_viable_piles(deck, constraints, opponent_disruption, top_n=10)\n",
+    "\n",
+    "# 5) Display in a DataFrame\n",
+    "import pandas as pd\n",
+    "df = pd.DataFrame(suggestions)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7e037f5a-cc2b-4e88-a4bd-dabb936b8800",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5d44826c-ffc5-4f84-80be-dd96667323bb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(df.loc[0][\"pile\"])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ac8ed980-03bd-42a8-94f9-fef10b0bde8a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.12"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

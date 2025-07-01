@@ -1,0 +1,57 @@
+import streamlit as st
+import pandas as pd
+from doomsday_engine import parse_decklist, suggest_viable_piles
+
+st.set_page_config(page_title="Vintage Doomsday Pile Suggester", layout="wide")
+
+st.title("Vintage MTG Doomsday Pile Suggester Web App")
+
+# Decklist input
+st.header("1. Decklist Input")
+deck_text = st.text_area(
+    "Paste your decklist here (one card per line, with quantities):",
+    height=200
+)
+
+# Initial hand input
+st.header("2. Initial Hand")
+initial_hand_input = st.text_input(
+    "Enter cards you start with (comma-separated):",
+    ""
+)
+
+# Constraints
+st.header("3. Constraints")
+max_life = st.slider("Maximum life loss (total)", 0, 20, 6)
+min_mana = st.slider("Minimum number of mana sources in pile", 0, 5, 1)
+must_oracle = st.checkbox("Must include Thassa's Oracle", value=True)
+must_draw = st.checkbox("Must include at least one draw spell", value=True)
+
+constraints = {
+    "max_life_loss": max_life,
+    "min_mana_sources": min_mana,
+    "must_include_oracle": must_oracle,
+    "must_include_draw": must_draw
+}
+
+# Opponent disruption toggles
+st.header("4. Opponent Disruption")
+od = {
+    "has_force_of_will": st.checkbox("Force of Will", value=True),
+    "has_flusterstorm": st.checkbox("Flusterstorm", value=True),
+    "has_surgical_extraction": st.checkbox("Surgical Extraction", value=False),
+    "has_mindbreak_trap": st.checkbox("Mindbreak Trap", value=False),
+    "has_dress_down": st.checkbox("Dress Down", value=False),
+    "has_consign_to_memory": st.checkbox("Consign to Memory", value=False),
+    "has_orcish_bowmasters": st.checkbox("Orcish Bowmasters", value=False),
+    "has_pyroblast": st.checkbox("Pyroblast", value=False)
+}
+
+# Generate suggestions
+if st.button("Generate Piles"):
+    deck = parse_decklist(deck_text)
+    initial_hand = [c.strip() for c in initial_hand_input.split(",")] if initial_hand_input else []
+    suggestions = suggest_viable_piles(deck, constraints, od, initial_hand, top_n=50)
+    df = pd.DataFrame(suggestions)
+    st.header("Suggested Doomsday Piles")
+    st.dataframe(df)

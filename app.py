@@ -11,10 +11,11 @@ from doomsday_engine import (
 )
 
 # ─── Page & Sidebar Setup ─────────────────────────────────────────────────────
-st.set_page_config(page_title="Vintage Doomsday Engine", layout="wide")
+st.set_page_config(page_title="Vintage Doomsday Engine", layout="wide", page_icon="favicon.ico")
 
 st.title("Vintage Doomsday Engine")
-st.image("logo.png", width=200)
+st.image("logo.png", width=600)
+
 st.markdown("#### Vintage MTG Doomsday Pile Suggester")
 
 # ─── 1) Decklist Input (Main Panel) ────────────────────────────────────────────

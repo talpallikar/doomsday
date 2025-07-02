@@ -85,13 +85,18 @@ if st.button("Generate Piles"):
     initial_hand = [c.strip() for c in initial_hand_input.split(",")] if initial_hand_input else []
     suggestions = suggest_viable_piles(deck, constraints, od, initial_hand, top_n=50)
     df = pd.DataFrame(suggestions)
+    # After df = pd.DataFrame(suggestions)
+    # Add this:
+    df['play_pattern_str'] = df['play_pattern'].apply(
+        lambda x: ' → '.join(x) if isinstance(x, list) else str(x)
+)   
     st.header("Suggested Doomsday Piles")
     st.dataframe(df)
     # Select a pile to view details
     selected = st.selectbox(
         "Drill into a pile",
-        options=df.index,
-        format_func=lambda i: df.at[i, 'play_pattern']
+        options=df.index.tolist(),
+        format_func=lambda i: df.at[i, 'play_pattern_str']
     )
     if selected is not None:
         st.subheader("Pile Drill-Down")

@@ -3,6 +3,8 @@ import streamlit.components.v1 as components
 import pandas as pd
 from doomsday_engine import parse_decklist, suggest_viable_piles
 
+st.sidebar.image("logo.png", width=200)
+st.sidebar.markdown("#### Vintage MTG Doomsday Pile Suggester\nBuilt with ♥ using Streamlit")
 
 DECK_PRESETS = {
     "Default Doomsday": """1 Ancestral Recall

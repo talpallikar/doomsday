@@ -5,7 +5,7 @@ Author: @RPSBonjwa
 
 A **Streamlit** and **Jupyter**-friendly toolkit that helps Vintage players engineer optimal **Doomsday** piles while accounting for opponent disruption and real mana constraints.
 
-[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/your-user/your-repo/main/app.py)
+[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/talpallikar/doomsday/main/app.py)
 
 ---
 

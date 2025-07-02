@@ -102,14 +102,13 @@ if generate:
         for clr, amt in MANA_PRODUCE[src].items():
             initial_pool[clr] = initial_pool.get(clr, 0) + amt
     # Compute suggestions
-
     suggestions = suggest_viable_piles(
         deck,
         constraints,
         od,
-        initial_hand=initial_hand,
-        initial_pool=initial_pool,
-        land_drops=land_drops,
+        initial_hand,
+        initial_pool,
+        land_drops,
         top_n=50
     )
     df = pd.DataFrame(suggestions)

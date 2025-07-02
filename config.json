@@ -1,0 +1,54 @@
+{
+  "oracle": "Thassa's Oracle",
+  "draw_spells": [
+    "Gitaxian Probe",
+    "Street Wraith",
+    "Gush",
+    "Brainstorm",
+    "Ponder",
+    "Preordain",
+    "Ideas Unbound"
+  ],
+  "mana_sources": [
+    "Dark Ritual",
+    "Lotus Petal",
+    "Black Lotus",
+    "Mox Jet",
+    "Mox Sapphire",
+    "Underground Sea",
+    "Island",
+    "Lion's Eye Diamond",
+    "Watery Grave"
+  ],
+  "tutors": [
+    "Demonic Tutor",
+    "Demonic Consultation"
+  ],
+  "draw_counts": {
+    "Ancestral Recall": 3,
+    "Gush": 2
+  },
+  "protection_spells": [
+    "Force of Will",
+    "Force of Negation",
+    "Mental Misstep",
+    "Daze",
+    "Flusterstorm",
+    "Thoughtseize",
+    "Duress"
+  ],
+  "blue_cards": [
+    "Brainstorm",
+    "Ponder",
+    "Preordain",
+    "Gitaxian Probe",
+    "Ancestral Recall",
+    "Gush",
+    "Flusterstorm",
+    "Force of Will",
+    "Force of Negation",
+    "Mental Misstep",
+    "Daze",
+    "Thassa's Oracle"
+  ]
+}

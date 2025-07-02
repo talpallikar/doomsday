@@ -9,24 +9,10 @@ and suggesting viable Doomsday piles.
 from collections import Counter
 import itertools
 
-# === Card Tags ===
-ORACLE = "Thassa's Oracle"
-DRAW_SPELLS = {"Gitaxian Probe", "Street Wraith", "Gush", "Brainstorm", "Ponder", "Preordain", "Ideas Unbound"}
-MANA_SOURCES = {"Dark Ritual", "Lotus Petal", "Black Lotus", "Mox Jet", "Mox Sapphire", "Underground Sea", "Island", "Watery Grave"}
-TUTORS = {"Demonic Tutor", "Demonic Consultation"}
-LOSES_TO_PYRO = {"Brainstorm", "Ponder", "Preordain", "Gitaxian Probe", "Ancestral Recall", "Gush", "Force of Will", "Force of Negation", "Thassa's Oracle"}
-PROTECTION_SPELLS = {"Force of Will", "Flusterstorm"}
-
-# === Multi-draw mapping ===
-# Number of cards drawn by specific spells
-DRAW_COUNTS = {
-    "Ancestral Recall": 3,
-    "Gush": 2
-}
+from config import ORACLE, DRAW_SPELLS, MANA_SOURCES, TUTORS, DRAW_COUNTS, PROTECTION_SPELLS
 
 # === Parsing ===
 import re
-
 def parse_decklist(deck_str):
     """
     Convert raw decklist text into a flat list of card names, stripping

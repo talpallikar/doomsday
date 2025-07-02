@@ -166,7 +166,7 @@ def simulate_detailed_pile(
 
             # Increment storm if it was a spell
             if step["type"] == "cast_spell":
-                if card in DRAW_SPELLS or card in TURN_SPELLS or card in {"Doomsday", ORACLE, "Force of Will"}:
+                if card in (DRAW_SPELLS - {"Street Wraith"}) or card in TURN_SPELLS or card in {"Doomsday", ORACLE, "Force of Will"}:
                     storm_count += 1
                 # Check hate
                 for hate_key, counter_func in HATE_CHECKS.items():

@@ -7,18 +7,6 @@
     "Brainstorm",
     "Ponder",
     "Preordain",
-    "Ideas Unbound"
-  ],
-  "mana_sources": [
-    "Dark Ritual",
-    "Lotus Petal",
-    "Black Lotus",
-    "Mox Jet",
-    "Mox Sapphire",
-    "Underground Sea",
-    "Island",
-    "Lion's Eye Diamond",
-    "Watery Grave"
   ],
   "tutors": [
     "Demonic Tutor",
@@ -26,29 +14,32 @@
   ],
   "draw_counts": {
     "Ancestral Recall": 3,
-    "Gush": 2
+    "Gush": 2,
+    "Brainstorm": 3,
+    "Ponder": 3,
+    "Preordain": 2,
+    "Treasure Cruise": 3,
+    "Dig Through Time": 2,
+    "Ideas Unbound": 3
   },
   "protection_spells": [
     "Force of Will",
     "Force of Negation",
     "Mental Misstep",
     "Daze",
-    "Flusterstorm",
-    "Thoughtseize",
-    "Duress"
+    "Flusterstorm"
   ],
-  "blue_cards": [
-    "Brainstorm",
-    "Ponder",
-    "Preordain",
-    "Gitaxian Probe",
-    "Ancestral Recall",
-    "Gush",
-    "Flusterstorm",
-    "Force of Will",
-    "Force of Negation",
-    "Mental Misstep",
-    "Daze",
-    "Thassa's Oracle"
-  ]
+  "turn_spells": [
+    "Time Walk"
+  ],
+  "mana_produce": {
+  "Dark Ritual": {"B": 3},
+  "Lotus Petal": {"C": 1},
+  "Black Lotus": {"C": 3},
+  "Mox Jet": {"B": 1},
+  "Mox Sapphire": {"U": 1},
+  "Underground Sea": {"C": 1},
+  "Island": {"U": 1},
+  "Watery Grave": {"C": 1}
+}
 }

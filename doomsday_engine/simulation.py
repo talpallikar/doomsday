@@ -6,35 +6,25 @@ Deterministic simulation of Doomsday piles against opponent interaction.
 """
 
 from typing import List, Tuple, Dict
-from .config import ORACLE, DRAW_SPELLS, MANA_SOURCES
+from .config import ORACLE, DRAW_SPELLS, TURN_SPELLS
+from .config import MANA_COSTS
+from .config import MANA_PRODUCE, MANA_COSTS
 
 def _can_counter_fow(card: str, storm_count: int) -> bool:
-    """Force of Will can counter any nonzero mana cost spell (placeholder: any instant/sorcery or Oracle)."""
-    return card in DRAW_SPELLS or card == ORACLE or card == "Doomsday"
+    return card in DRAW_SPELLS or card == ORACLE or card in TURN_SPELLS or card == "Doomsday"
 
 def _can_counter_pyroblast(card: str, storm_count: int) -> bool:
-    """Pyroblast counters blue instants/sorceries or Oracle/Doomsday."""
-    return card in DRAW_SPELLS or card == ORACLE or card == "Doomsday"
+    return card in DRAW_SPELLS or card == ORACLE or card in TURN_SPELLS or card == "Doomsday"
 
-def _can_counter_fluster(pile_card: str, storm_count: int) -> bool:
-    """
-    Flusterstorm requires at least one spell on the stack (storm_count > 1).
-    It counters only instant/sorcery spells.
-    """
-    return storm_count > 1 and (pile_card in DRAW_SPELLS or pile_card == ORACLE or pile_card == "Doomsday")
+def _can_counter_fluster(card: str, storm_count: int) -> bool:
+    return storm_count > 1 and (card in DRAW_SPELLS or card == ORACLE or card in TURN_SPELLS or card == "Doomsday")
 
-def _can_counter_mindbreak(pile_card: str, storm_count: int) -> bool:
-    """
-    Mindbreak Trap X where X = storm_count can counter X spells on the stack.
-    We assume it can counter the key target if storm_count >= 1.
-    """
-    return storm_count >= 1 and (pile_card in DRAW_SPELLS or pile_card == ORACLE or pile_card == "Doomsday")
+def _can_counter_mindbreak(card: str, storm_count: int) -> bool:
+    return storm_count >= 1 and (card in DRAW_SPELLS or card == ORACLE or card in TURN_SPELLS or card == "Doomsday")
 
 def _can_counter_dress_down(card: str, storm_count: int) -> bool:
-    """Dress Down can target Oracle on the battlefield to temporarily remove abilities."""
     return card == ORACLE
 
-# Mapping of hate card to its counter function
 HATE_CHECKS = {
     "has_force_of_will": _can_counter_fow,
     "has_pyroblast":    _can_counter_pyroblast,
@@ -48,34 +38,40 @@ def simulate_pile(
     opponent_disruption: Dict[str, bool],
     initial_hand: List[str] = None
 ) -> Tuple[str, int]:
-    """
-    Simulate resolving the given play pattern against enabled opponent disruptions.
-    Returns a tuple of (outcome, storm_count):
-      - outcome: "win" if Oracle resolves, otherwise the key of the hate that stopped you.
-      - storm_count: number of spells cast when the outcome occurred.
-    """
     if initial_hand is None:
         initial_hand = []
+    # Initialize mana pool from MANA_PRODUCE
+    pool: Dict[str,int] = {"U":0, "B":0, "C":0}
 
     storm_count = 0
-
-    # Cast sequence: iterate through each card in play_pattern
     for card in play_pattern:
-        # Increment storm count for each instant/sorcery or Doomsday/Oracle
-        if card in DRAW_SPELLS or card in {"Doomsday", ORACLE}:
-            storm_count += 1
+    # 1) If it’s a mana source, add its production to the pool
+    if card in MANA_PRODUCE:
+        for color, amt in MANA_PRODUCE[card].items():
+            pool[color] = pool.get(color, 0) + amt
+        # pay no storm or cast steps for lands, but you may want to count them as spells if desired
+        continue
 
-        # Check each enabled hate card
+    # 2) Otherwise it's a spell—check cost
+    cost = MANA_COSTS.get(card, {})
+    for color, amt in cost.items():
+        if pool.get(color, 0) < amt:
+            return f"insufficient_mana_for_{card}", storm_count
+    # subtract the cost
+    for color, amt in cost.items():
+        pool[color] -= amt
+
+    # 3) Now proceed with storm_count, hate checks, oracle win...
+    if card in DRAW_SPELLS or card in {"Doomsday", ORACLE}:
+        storm_count += 1
+
         for hate_key, counter_func in HATE_CHECKS.items():
             if not opponent_disruption.get(hate_key, False):
                 continue
             if counter_func(card, storm_count):
-                # Return the hate_key (e.g., "has_force_of_will") as the cause
                 return hate_key, storm_count
 
-        # If this was the Oracle, and it's not countered, you win
         if card == ORACLE:
             return "win", storm_count
 
-    # If we never cast Oracle
     return "no_oracle", storm_count

@@ -8,7 +8,7 @@ Suggest viable Doomsday piles with deterministic simulation against opponent hat
 import itertools
 from typing import List, Tuple, Dict, Any
 from .parser import parse_decklist
-from .config import DRAW_SPELLS, MANA_SOURCES, ORACLE, PROTECTION_SPELLS
+from .config import DRAW_SPELLS, MANA_SOURCES, ORACLE, PROTECTION_SPELLS, TURN_SPELLS
 from .vulnerabilities import (
     vulnerable_to_force, vulnerable_to_fluster, vulnerable_to_surgical,
     vulnerable_to_mindbreak, vulnerable_to_dress_down,
@@ -79,13 +79,12 @@ def suggest_viable_piles(
         protection_count = len(pile_set & PROTECTION_SPELLS)
         risk_score = max(0, len(vulns) - protection_count)
 
-        # Build play pattern: protections -> mana -> Doomsday -> draws -> Oracle
+        # Build play pattern: protections -> mana -> turn spells -> Doomsday -> draws -> Oracle
         protections = [c for c in pile if c in PROTECTION_SPELLS]
         mana = [c for c in pile if c in MANA_SOURCES and c not in protections]
+        turn_spells = [c for c in pile if c in TURN_SPELLS]
         draw_spells = [c for c in pile if c in DRAW_SPELLS and c not in protections]
-        combo_line = mana + draw_spells + [ORACLE]
-        # Insert Doomsday before draw sequence
-        play_pattern = protections + mana + ["Doomsday"] + draw_spells + [ORACLE]
+        play_pattern = protections + mana + turn_spells + ["Doomsday"] + draw_spells + [ORACLE]
 
         # Calculate turns to win
         turns = turns_to_win(tuple(play_pattern), initial_hand)

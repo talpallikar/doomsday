@@ -1,8 +1,8 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
-from doomsday_engine import parse_decklist, suggest_viable_piles
 import os
+from doomsday_engine import load_deck_from_text, suggest_viable_piles
 
 st.sidebar.image("logo.png", width=200)
 st.sidebar.markdown("#### Vintage MTG Doomsday Pile Suggester\nBuilt with ♥ using Streamlit")

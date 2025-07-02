@@ -1,5 +1,7 @@
 
-# Vintage MTG Doomsday Pile Suggester
+# Magic: The Gathering Vintage Doomsday Engine
+
+Author: @RPSBonjwa
 
 A **Streamlit** and **Jupyter**-friendly toolkit that helps Vintage players engineer optimal **Doomsday** piles while accounting for opponent disruption and real mana constraints.
 
@@ -31,7 +33,7 @@ A **Streamlit** and **Jupyter**-friendly toolkit that helps Vintage players engi
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
 ### 1. Clone & Install
 
@@ -86,7 +88,7 @@ df
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 All core settings live in **`doomsday_engine/config.json`**:
 
@@ -98,7 +100,7 @@ All core settings live in **`doomsday_engine/config.json`**:
 
 ---
 
-## 💾 Scryfall Cache
+## Scryfall Cache
 
 We use a **flat-JSON cache** to fetch `mana_cost` from Scryfall:
 
@@ -108,7 +110,7 @@ We use a **flat-JSON cache** to fetch `mana_cost` from Scryfall:
 
 ---
 
-## 🔧 Development
+## Development
 
 - **Python** ≥ 3.9
 - **Dependencies** in `requirements.txt`:
@@ -120,7 +122,7 @@ We use a **flat-JSON cache** to fetch `mana_cost` from Scryfall:
 
 ---
 
-## 🙏 Contributing
+## Contributing
 
 1. Fork the repo  
 2. Create a feature branch  
@@ -129,7 +131,7 @@ We use a **flat-JSON cache** to fetch `mana_cost` from Scryfall:
 
 ---
 
-## 📄 License
+## License
 
 [MIT License](LICENSE)
 

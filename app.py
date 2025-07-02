@@ -6,51 +6,57 @@ from doomsday_engine import parse_decklist, suggest_viable_piles
 st.sidebar.image("logo.png", width=200)
 st.sidebar.markdown("#### Vintage MTG Doomsday Pile Suggester\nBuilt with ♥ using Streamlit")
 
-DECK_PRESETS = {
-    "Turbo Doomsday": """1 Ancestral Recall
-1 Black Lotus
-1 Brainstorm
-4 Dark Ritual
-…""",
-    "Lurrus Doomsday": """1 Ancestral Recall
-1 Lotus Petal
-1 Brainstorm
-4 Dark Ritual
-…""",
-    # add more
-}
-
-HAND_PRESETS = {
-    "Empty": "",
-    "Brainstorm, Force of Will, Land": "Brainstorm, Force of Will, Underground Sea",
-    "Oracle": "Thassa's Oracle",
-    # add more
-}
-
-
 st.set_page_config(page_title="Vintage Doomsday Pile Suggester", layout="wide")
 
 st.title("Vintage MTG Doomsday Pile Suggester Web App")
 
-# Decklist input
-preset = st.selectbox("Choose a deck preset:", ["<Paste your own>", *DECK_PRESETS])
-if preset == "<Paste your own>":
-    deck_text = st.text_area("Paste decklist here", height=200)
+import os
+import streamlit as st
+import pandas as pd
+from doomsday_engine import parse_decklist, suggest_viable_piles
+
+st.set_page_config(page_title="Vintage Doomsday Pile Suggester", layout="wide")
+st.title("Vintage MTG Doomsday Pile Suggester Web App")
+
+# === 1) Decklist Input ===
+DECK_FOLDER = "decks"
+deck_files = sorted(f for f in os.listdir(DECK_FOLDER) if f.lower().endswith(".txt"))
+
+choice = st.selectbox(
+    "Choose a decklist file (or select another input method):",
+    ["<Paste your own>", *deck_files]
+)
+
+# File uploader sits next to the selectbox
+uploaded_file = st.file_uploader(
+    "Or upload your own .txt decklist:",
+    type=["txt"]
+)
+
+if uploaded_file is not None:
+    # Uploaded file takes highest priority
+    deck_text = uploaded_file.getvalue().decode("utf-8")
+    st.text_area("Decklist loaded from uploaded file:", deck_text, height=200)
+elif choice != "<Paste your own>":
+    # If user chose a file from decks/ folder
+    path = os.path.join(DECK_FOLDER, choice)
+    with open(path, "r") as f:
+        deck_text = f.read()
+    st.text_area(f"Decklist loaded from decks/{choice}:", deck_text, height=200)
 else:
-    deck_text = DECK_PRESETS[preset]
+    # Free-form paste
+    deck_text = st.text_area(
+        "Paste your decklist here (one card per line, with quantities):",
+        height=200
+    )
 
-# Initial hand input
-hand_preset = st.selectbox("Example hands:", list(HAND_PRESETS.keys()))
-if hand_preset == "Empty":
-    initial_hand_input = ""
-else:
-    initial_hand_input = HAND_PRESETS[hand_preset]
-# Show editable field in case they want to tweak
-initial_hand_input = st.text_input("Or edit hand (comma-separated):", initial_hand_input)
+# === 2) Initial Hand Input ===
+initial_hand_input = st.text_input(
+    "Enter cards you start with (comma-separated):",
+    ""
+)
 
-
-# Constraints
-st.header("3. Constraints")
+# === 3) Constraints ===
 max_life = st.slider("Maximum life loss (total)", 0, 20, 6)
 min_mana = st.slider("Minimum number of mana sources in pile", 0, 5, 1)
 must_oracle = st.checkbox("Must include Thassa's Oracle", value=True)
@@ -63,8 +69,7 @@ constraints = {
     "must_include_draw": must_draw
 }
 
-# Opponent disruption toggles
-st.header("4. Opponent Disruption")
+# === 4) Opponent Disruption ===
 od = {
     "has_force_of_will": st.checkbox("Force of Will", value=True),
     "has_flusterstorm": st.checkbox("Flusterstorm", value=True),
@@ -76,7 +81,7 @@ od = {
     "has_pyroblast": st.checkbox("Pyroblast", value=False)
 }
 
-# Generate suggestions
+# === 5) Generate & Display Suggestions ===
 if st.button("Generate Piles"):
     deck = parse_decklist(deck_text)
     initial_hand = [c.strip() for c in initial_hand_input.split(",")] if initial_hand_input else []

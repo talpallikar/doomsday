@@ -12,8 +12,10 @@ import itertools
 # === Card Tags ===
 ORACLE = "Thassa's Oracle"
 DRAW_SPELLS = {"Gitaxian Probe", "Street Wraith", "Gush", "Brainstorm", "Ponder", "Preordain", "Ideas Unbound"}
-MANA_SOURCES = {"Dark Ritual", "Lotus Petal", "Black Lotus", "Mox Jet", "Mox Sapphire", "Underground Sea", "Island"}
+MANA_SOURCES = {"Dark Ritual", "Lotus Petal", "Black Lotus", "Mox Jet", "Mox Sapphire", "Underground Sea", "Island", "Watery Grave"}
 TUTORS = {"Demonic Tutor", "Demonic Consultation"}
+LOSES_TO_PYRO = {"Brainstorm", "Ponder", "Preordain", "Gitaxian Probe", "Ancestral Recall", "Gush", "Force of Will", "Force of Negation", "Thassa's Oracle"}
+PROTECTION_SPELLS = {"Force of Will", "Flusterstorm"}
 
 # === Multi-draw mapping ===
 # Number of cards drawn by specific spells
@@ -55,10 +57,10 @@ def vulnerable_to_consign(pile):
     return 
 
 def vulnerable_to_orcish(pile):
-    return any(card not in MANA_SOURCES and card not in {ORACLE, *DRAW_SPELLS, *TUTORS} for card in pile)
+    return any(card in (DRAW_SPELLS, DRAW_COUNTS) for card in pile)
 
 def vulnerable_to_pyroblast(pile):
-    return any(card in DRAW_SPELLS or card in {"Brainstorm", "Ponder"} for card in pile)
+    return any(card in LOSES_TO_PYRO for card in pile)
 
 # === Turn Calculation ===
 def turns_to_win(pile, initial_hand=None):

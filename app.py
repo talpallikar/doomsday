@@ -7,12 +7,12 @@ st.sidebar.image("logo.png", width=200)
 st.sidebar.markdown("#### Vintage MTG Doomsday Pile Suggester\nBuilt with ♥ using Streamlit")
 
 DECK_PRESETS = {
-    "Default Doomsday": """1 Ancestral Recall
+    "Turbo Doomsday": """1 Ancestral Recall
 1 Black Lotus
 1 Brainstorm
 4 Dark Ritual
 …""",
-    "Gush Doomsday": """1 Ancestral Recall
+    "Lurrus Doomsday": """1 Ancestral Recall
 1 Lotus Petal
 1 Brainstorm
 4 Dark Ritual
@@ -22,8 +22,8 @@ DECK_PRESETS = {
 
 HAND_PRESETS = {
     "Empty": "",
-    "Draw on Play": "Brainstorm,Lotus Petal",
-    "Draw on Draw": "Dark Ritual,Preordain",
+    "Brainstorm, Force of Will, Land": "Brainstorm, Force of Will, Underground Sea",
+    "Oracle": "Thassa's Oracle",
     # add more
 }
 

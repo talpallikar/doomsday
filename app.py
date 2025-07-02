@@ -3,7 +3,6 @@ import streamlit.components.v1 as components
 import pandas as pd
 import os
 from doomsday_engine import parse_decklist, suggest_viable_piles
-from notebook_utils import generate_pile_details
 
 st.sidebar.image("logo.png", width=200)
 st.sidebar.markdown("#### Vintage MTG Doomsday Pile Suggester\nBuilt with ♥ using Streamlit")
@@ -105,7 +104,6 @@ if st.button("Generate Piles"):
         st.subheader("Pile Drill-Down")
         # Grab the list directly, no split()
         play_list = df.at[selected, 'play_pattern']
-
         detail_df = generate_pile_details(play_list, od, initial_hand)
         st.table(detail_df)
 

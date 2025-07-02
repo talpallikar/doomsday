@@ -7,9 +7,10 @@ from doomsday_engine import load_deck_from_text, suggest_viable_piles
 st.sidebar.image("logo.png", width=200)
 st.sidebar.markdown("#### Vintage MTG Doomsday Pile Suggester\nBuilt with ♥ using Streamlit")
 st.set_page_config(page_title="Vintage Doomsday Pile Suggester", layout="wide")
-st.title("Vintage MTG Doomsday Pile Suggester Web App")
+st.title("Vintage Doomsday Engine")
 
 # === 1) Decklist Input ===
+st.header("1. Select a Decklist")
 DECK_FOLDER = "decks"
 deck_files = sorted(f for f in os.listdir(DECK_FOLDER) if f.lower().endswith(".txt"))
 

@@ -1,3 +1,4 @@
+# Simulation.py
 ''' 
 Deterministic simulation of Doomsday piles against opponent interaction,
 with full mana cost and mana production accounting.

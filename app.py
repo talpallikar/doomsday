@@ -87,6 +87,18 @@ if st.button("Generate Piles"):
     df = pd.DataFrame(suggestions)
     st.header("Suggested Doomsday Piles")
     st.dataframe(df)
+    # Select a pile to view details
+    selected = st.selectbox(
+        "Drill into a pile",
+        options=df.index,
+        format_func=lambda i: df.at[i, 'play_pattern']
+    )
+    if selected is not None:
+        st.subheader("Pile Drill-Down")
+        # Convert the play_pattern string back to list
+        play_list = df.at[selected, 'play_pattern'].split(' → ')
+        detail_df = generate_pile_details(play_list, od, initial_hand)
+        st.table(detail_df)
 
 GA_JS = """
 <!-- Google tag (gtag.js) -->

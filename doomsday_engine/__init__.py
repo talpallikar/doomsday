@@ -9,10 +9,6 @@ Modules:
 - suggester
 """
 
-from .config import (
-    ORACLE, DRAW_SPELLS, MANA_SOURCES, TUTORS,
-    DRAW_COUNTS, PROTECTION_SPELLS
-)
 from .parser import parse_decklist
 from .vulnerabilities import (
     vulnerable_to_force, vulnerable_to_fluster, vulnerable_to_surgical,
@@ -21,3 +17,10 @@ from .vulnerabilities import (
 )
 from .turns import turns_to_win
 from .suggester import suggest_viable_piles
+
+from .config import (
+    ORACLE, DRAW_SPELLS, MANA_SOURCES, TUTORS,
+    DRAW_COUNTS, PROTECTION_SPELLS, TURN_SPELLS,
+    MANA_PRODUCE, MANA_COSTS
+)
+from .details import generate_pile_details

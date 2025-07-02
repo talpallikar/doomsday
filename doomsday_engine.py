@@ -25,16 +25,32 @@ DRAW_COUNTS = {
 }
 
 # === Parsing ===
+import re
+
 def parse_decklist(deck_str):
     """
-    Convert raw decklist text into a flat list of card names.
+    Convert raw decklist text into a flat list of card names, stripping
+    out set‐codes in parentheses and trailing collector numbers.
     """
     deck = []
-    for line in deck_str.strip().splitlines():
-        count, *name_parts = line.strip().split()
-        card = ' '.join(name_parts)
-        deck.extend([card] * int(count))
+    for raw_line in deck_str.strip().splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        # Match count at start, then everything else
+        m = re.match(r"^(\d+)\s+(.+)$", line)
+        if not m:
+            continue
+        count = int(m.group(1))
+        name_part = m.group(2)
+        # Strip any parenthetical set‐codes: "Card Name (2ED)"
+        name_part = re.sub(r"\s*\([^)]*\)", "", name_part)
+        # Strip any trailing numbers (collector IDs)
+        name_part = re.sub(r"\s+\d+$", "", name_part)
+        card_name = name_part.strip()
+        deck.extend([card_name] * count)
     return deck
+
 
 # === Vulnerability Detection ===
 def vulnerable_to_force(pile):

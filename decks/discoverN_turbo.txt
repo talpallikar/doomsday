@@ -30,12 +30,3 @@
 1 Undercity Sewers
 4 Underground Sea
 1 Vampiric Tutor
-
-2 Abhorrent Oculus
-2 Fatal Push
-1 Force of Negation
-4 Leyline of the Void
-1 Mindbreak Trap
-2 Snuff Out
-2 Steel Sabotage
-1 The Tabernacle at Pendrell Vale

@@ -1,8 +1,10 @@
 simulation.py
 
+''' 
 Deterministic simulation of Doomsday piles against opponent interaction,
 with full mana cost and mana production accounting.
 Includes detailed step-by-step simulation for drill-down.
+'''
 
 from typing import List, Tuple, Dict, Any
 from .config import ORACLE, DRAW_SPELLS, TURN_SPELLS, MANA_PRODUCE, MANA_COSTS

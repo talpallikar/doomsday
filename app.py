@@ -51,12 +51,16 @@ else:
     )
 
 # === 2) Initial Hand Input ===
+st.header("2. Initial Hand")
+
 initial_hand_input = st.text_input(
     "Enter cards you start with (comma-separated):",
     ""
 )
 
 # === 3) Constraints ===
+
+st.header("3. Constraints")
 max_life = st.slider("Maximum life loss (total)", 0, 20, 6)
 min_mana = st.slider("Minimum number of mana sources in pile", 0, 5, 1)
 must_oracle = st.checkbox("Must include Thassa's Oracle", value=True)
@@ -70,6 +74,8 @@ constraints = {
 }
 
 # === 4) Opponent Disruption ===
+st.header("4. Opponent Disruption")
+
 od = {
     "has_force_of_will": st.checkbox("Force of Will", value=True),
     "has_flusterstorm": st.checkbox("Flusterstorm", value=True),

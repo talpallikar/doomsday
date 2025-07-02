@@ -80,31 +80,34 @@ od = {
 }
 
 # === 5) Generate & Display Suggestions ===
+
 if st.button("Generate Piles"):
     deck = parse_decklist(deck_text)
     initial_hand = [c.strip() for c in initial_hand_input.split(",")] if initial_hand_input else []
     suggestions = suggest_viable_piles(deck, constraints, od, initial_hand, top_n=50)
     df = pd.DataFrame(suggestions)
-    # After df = pd.DataFrame(suggestions)
-    # Add this:
-    df['play_pattern_str'] = df['play_pattern'].apply(
-        lambda x: ' → '.join(x) if isinstance(x, list) else str(x)
-)   
+
+    # Pre-format for display
+    df['play_pattern_str'] = df['play_pattern'].apply(lambda x: ' → '.join(x))
+
     st.header("Suggested Doomsday Piles")
     st.dataframe(df)
-    # Select a pile to view details
+
+    # Drill-down selector
     selected = st.selectbox(
         "Drill into a pile",
         options=df.index.tolist(),
         format_func=lambda i: df.at[i, 'play_pattern_str']
     )
+
     if selected is not None:
         st.subheader("Pile Drill-Down")
-        # Convert the play_pattern string back to list
-        play_list = df.at[selected, 'play_pattern'].split(' → ')
+        # Grab the list directly, no split()
+        play_list = df.at[selected, 'play_pattern']
         detail_df = generate_pile_details(play_list, od, initial_hand)
         st.table(detail_df)
 
+# Analytics snippet
 GA_JS = """
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9425Y903KE"></script>
